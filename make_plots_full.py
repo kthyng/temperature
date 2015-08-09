@@ -240,6 +240,7 @@ for plotdate in plotdates:
     # Surface currents over domain, use psi grid for common locations
     u = op.resize(np.squeeze(m.variables['u'][itmodel,-1,:,:]), 0)
     v = op.resize(np.squeeze(m.variables['v'][itmodel,-1,:,:]), 1)
+    u, v = rot2d(u, v, op.resize(op.resize(anglev, 0), 1))
     Q = ax.quiver(xpsi[cdy::cdy,cdx::cdx], ypsi[cdy::cdy,cdx::cdx], u[cdy::cdy,cdx::cdx], v[cdy::cdy,cdx::cdx], 
             color='k', alpha=0.4, pivot='middle', scale=40, width=0.001)
     # Q = ax.quiver(xpsi[cdy::cdy,cdy::cdy], ypsi[cdy::cdy,cdy::cdy], Uwind[cdy::cdy,cdy::cdy], Vwind[cdy::cdy,cdy::cdy], 
@@ -249,6 +250,7 @@ for plotdate in plotdates:
     # Wind over the domain
     Uwind = w.variables['Uwind'][itwind,:,:]
     Vwind = w.variables['Vwind'][itwind,:,:]
+    Uwind, Vwind = rot2d(Uwind, Vwind, anglev)
     Q = ax.quiver(xr[wdy::wdy,wdx::wdx], yr[wdy::wdy,wdx::wdx], Uwind[wdy::wdy,wdx::wdx], Vwind[wdy::wdy,wdx::wdx], 
             color='k', alpha=0.15, scale=400, pivot='middle', headlength=3, headaxislength=2.8)
     qk = ax.quiverkey(Q, 0.18, 0.825, 10, r'10 m$\cdot$s$^{-1}$ wind', labelcolor='0.2', fontproperties={'size': '10'})
